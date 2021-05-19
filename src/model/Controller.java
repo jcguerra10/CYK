@@ -49,4 +49,19 @@ public class Controller {
     private String[] toArray(String nextLine) {
         return nextLine.split("\\s");
     }
+
+    private String[][] createCYKTable() {
+        int length = w.length();
+        String[][] table = new String[length + 1][];
+        table[0] = new String[length];
+        for (int i = 1; i < table.length; i++) {
+            table[i] = new String[length - (i - 1)];
+        }
+        for (int i = 1;i < table.length;i++) {
+            for (int j = 0; j < table[i].length; j++) {
+                table[i][j] = "";
+            }
+        }
+        return table;
+    }
 }
