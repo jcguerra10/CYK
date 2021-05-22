@@ -9,27 +9,30 @@ public class Controller {
     private final String w;
     private final String initS;
 
-    private final ArrayList<String> terminals = new ArrayList<>();
-    private final ArrayList<String> nonTerminals = new ArrayList<>();
+    private final ArrayList<String> terminals;
+    private final ArrayList<String> nonTerminals;
 
     private final HashMap<String, ArrayList<String>> g = new HashMap<>();
 
-    public Controller(String path, String w, String initS) {
+    public Controller(String path, String w, String initS, ArrayList<String> ter, ArrayList<String> nonter) {
         this.path = path;
         this.w = w;
         this.initS = initS;
+        terminals = ter;
+        nonTerminals = nonter;
+    }
+
+    public String[][] doit() throws FileNotFoundException {
+        setupGrammar();
+        String[][] res = cyk(createCYKTable());
+        return res;
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public void setupGrammar() throws FileNotFoundException {
+    private void setupGrammar() throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(path));
 
-        ArrayList<String> tmp = new ArrayList<>(Arrays.asList(toArray(scanner.nextLine())));
-        terminals.addAll(tmp);
-        tmp.clear();
-        tmp.addAll(Arrays.asList(toArray(scanner.nextLine())));
-        nonTerminals.addAll(tmp);
-        tmp.clear();
+        ArrayList<String> tmp = new ArrayList<>();
 
         while (scanner.hasNextLine()) {
             tmp.addAll(Arrays.asList(toArray(scanner.nextLine())));
@@ -59,15 +62,15 @@ public class Controller {
         return table;
     }
 
-    public String[][] cyk(String[][] table) {
+    private String[][] cyk(String[][] table) {
         for (int i = 0; i < table[0].length; i++) {
             table[0][i] = w.charAt(i) + "";
         }
-        for (int i = 0; i < table[i].length; i++) {
+        for (int i = 0; i < table[1].length; i++) {
             String[] comb = productions(new String[]{table[0][i]});
             table[1][i] = Arrays.toString(comb).replaceAll("[\\[\\],]", "");
         }
-        if (w.length() >= 1) {
+        if (w.length() > 1) {
             for (int i = 0; i < table[2].length; i++) {
                 String[] down = toArray(table[1][i]);
                 String[] diag = toArray(table[1][i + 1]);
@@ -75,7 +78,7 @@ public class Controller {
                 String[] comb = productions(aCombs);
                 table[2][i] = Arrays.toString(comb).replaceAll("[\\[\\],]", "");
             }
-            if (w.length() >= 2){
+            if (w.length() > 2){
                 restOps(table);
             }
         }
@@ -86,15 +89,16 @@ public class Controller {
     private void restOps(String[][] table) {
         for (int i = 3; i < table.length; i++) {
             for (int j = 0; j < table[i].length; j++) {
-                for (int k = 0; k < i; k++) {
-                    String[] down = table[k][i].split("\\s");
+                for (int k = 1; k < i; k++) {
+                    String[] down = table[k][j].split("\\s");
                     String[] diag = table[i-k][j+k].split("\\s");
                     String[] aCombs = getAllCombs(down, diag);
                     String[] comb = productions(aCombs);
                     if (table[i][j].isEmpty()) {
                         table[i][j] = Arrays.toString(comb).replaceAll("[\\[\\],]", "");
                     } else {
-                        ArrayList newVal = (ArrayList) Arrays.asList(toArray(table[i][j]));
+                        ArrayList newVal = new ArrayList();
+                        newVal.addAll(Arrays.asList(toArray(table[i][j])));
                         newVal.addAll(Arrays.asList(comb));
                         HashSet<String> currentV = new HashSet<>(newVal);
                         String[] res = currentV.toArray(new String[0]);
@@ -108,9 +112,11 @@ public class Controller {
     private String[] getAllCombs(String[] down, String[] diag) {
         int n = down.length * diag.length;
         String[] combs = new String[n];
+        int cont = 0;
         for (String s : down) {
-            for (int j = 0; j < diag.length; j++) {
-                combs[j] = s + diag[j];
+            for (String s1 : diag) {
+                combs[cont] = s + s1;
+                cont++;
             }
         }
         return combs;

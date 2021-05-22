@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="507.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField fx:id="s" layoutX="17.0" layoutY="31.0" prefHeight="26.0" prefWidth="143.0" />
+      <Label alignment="CENTER" layoutX="17.0" layoutY="15.0" prefHeight="17.0" prefWidth="143.0" text="STARTING SYMBOL">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="word" layoutX="17.0" layoutY="81.0" prefHeight="26.0" prefWidth="143.0" />
+      <Label alignment="CENTER" layoutX="17.0" layoutY="65.0" prefHeight="17.0" prefWidth="143.0" text="WORD">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="terminals" layoutX="17.0" layoutY="134.0" prefHeight="26.0" prefWidth="143.0" />
+      <Label alignment="CENTER" layoutX="17.0" layoutY="118.0" prefHeight="17.0" prefWidth="143.0" text="TERMINALS">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nonterminals" layoutX="17.0" layoutY="186.0" prefHeight="26.0" prefWidth="143.0" />
+      <Label alignment="CENTER" layoutX="17.0" layoutY="170.0" prefHeight="17.0" prefWidth="143.0" text="NON-TERMINALS">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="tall" layoutX="168.0" layoutY="23.0" prefHeight="332.0" prefWidth="325.0" />
+      <Button layoutX="350.0" layoutY="362.0" mnemonicParsing="false" onAction="#doCYK" prefHeight="26.0" prefWidth="143.0" text="DO THE CYK" />
+   </children>
+</AnchorPane>
