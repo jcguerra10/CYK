@@ -1,7 +1,6 @@
 package ui;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +18,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             FXMLLoader fl = new FXMLLoader(getClass().getResource("window.fxml"));
-            fl.setController(new ControllerMain());
+            fl.setController(new ControllerMain(null, null));
             Parent p = fl.load();
             primaryStage.setResizable(false);
             primaryStage.setScene(new Scene(p));

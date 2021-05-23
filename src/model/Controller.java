@@ -22,10 +22,13 @@ public class Controller {
         nonTerminals = nonter;
     }
 
+    public String getInitS() {
+        return initS;
+    }
+
     public String[][] doit() throws FileNotFoundException {
         setupGrammar();
-        String[][] res = cyk(createCYKTable());
-        return res;
+        return cyk(createCYKTable());
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
